@@ -20,11 +20,12 @@ class Nota(Base):
         self.av1 = av1
         self.av2 = av2
 
-    @property
+    def obter_notas(self):
+        return f'Disciplina {self.disciplina.nome} || Aluno {self.aluno.nome}. Nota: Av1 = {self.av1}. Av2 = {self.av2}. Média: {self.media()}. Situação: {self.situacao()}.'
+
     def media(self):
         return (self.av1 + self.av2) / 2
 
-    @property
     def situacao(self):
         m = self.media
         if m >= 5:

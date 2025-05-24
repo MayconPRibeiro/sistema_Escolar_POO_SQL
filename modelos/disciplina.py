@@ -12,3 +12,7 @@ class Disciplina(Base):
 
     def __init__(self, nome):
         self.nome = nome
+    
+    def listar_notas(self):
+        for nota in self.notas:
+            print(f'Aluno: {nota.aluno.nome} ||  AV1: {nota.av1} || AV2: {nota.av2} || Media: {nota.media}')

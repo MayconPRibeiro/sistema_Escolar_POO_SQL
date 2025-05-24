@@ -13,5 +13,7 @@ class Professor(Pessoa):
         super().__init__(cpf, nome)
         self.disciplina = disciplina
 
+    
+
     def consultar_notas(self):
         pass

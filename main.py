@@ -1,37 +1,81 @@
-from database import Base, engine, session
+from database import session
 from modelos.turma import Turma
 from modelos.aluno import Aluno
 from modelos.professor import Professor
 from modelos.disciplina import Disciplina
 from modelos.nota import Nota
 
-Base.metadata.create_all(engine)
+def menu_principal():
+    while True:
+        print("\n===== Sistema Escolar =====")
+        print("1 - Criar Aluno")
+        print("2 - Criar Professor")
+        print("3 - Sou Aluno")
+        print("4 - Sou Professor")
+        print("0 - Sair")
+        escolha = input("Escolha uma opção: ")
 
-turma1 = Turma(nome="ADS1", periodo="Noturno")
+        if escolha == '1':
+            Aluno.criar_aluno_com_tratamento()
+        elif escolha == '2':
+            Professor.criar_prof_com_tratamentos()
+        elif escolha == '3':
+            menu_aluno()
+        elif escolha == '4':
+            menu_professor()
+        elif escolha == '0':
+            print("Saindo...")
+            break
+        else:
+            print("Opção inválida! Tente novamente.")
+            menu_principal()
 
-aluno1 = Aluno(cpf="12345678900", nome="Gabriel")
-aluno2 = Aluno(cpf="98765432100", nome="Lucas")
+def menu_aluno():
+    print("\n--- Menu Aluno ---")
+    print("1 - Consultar minhas notas")
+    print("0 - Voltar")
+    escolha = input("Escolha uma opção: ")
+    if escolha == '1':
+        print("Mostrando suas notas... (implemente a lógica aqui)")
+    elif escolha == '0':
+        return
+    else:
+        print("Opção inválida!")
 
-turma1.alunos.append(aluno1)
-turma1.alunos.append(aluno2)
+def menu_professor():
+    while True:
+        print("\n--- Menu Professor ---")
+        print("1 - Criar Nota")
+        print("2 - Excluir Nota")
+        print("3 - Modificar Nota")
+        print("4 - Consultar Notas")
+        print("0 - Voltar")
+        escolha = input("Escolha uma opção: ")
 
-disciplina1 = Disciplina(nome="POO")
+        if escolha == '1':
+            criar_nota()
+        elif escolha == '2':
+            excluir_nota()
+        elif escolha == '3':
+            modificar_nota()
+        elif escolha == '4':
+            consultar_notas()
+        elif escolha == '0':
+            break
+        else:
+            print("Opção inválida!")
 
-nota1 = Nota(aluno=aluno1, disciplina=disciplina1, av1=7, av2=8)
-nota2 = Nota(aluno=aluno2, disciplina=disciplina1, av1=6, av2=5)
+def criar_nota():
+    print("Criar nota - implementar lógica aqui")
 
-session.add(turma1)
-session.add(disciplina1)
-session.add(nota1)
-session.add(nota2)
+def excluir_nota():
+    print("Excluir nota - implementar lógica aqui")
 
-session.commit()
+def modificar_nota():
+    print("Modificar nota - implementar lógica aqui")
 
-turmas = session.query(Turma).all()
-for turma in turmas:
-    print(f"\nTurma: {turma.nome} ({turma.periodo})")
-    for aluno in turma.alunos:
-        print(f" - Aluno: {aluno.nome} (CPF: {aluno.cpf})")
-        for nota in aluno.notas:
-            print(f"   Disciplina: {nota.disciplina.nome}")
-            print(f"   AV1: {nota.av1} | AV2: {nota.av2} | Média: {nota.media} | Situação: {nota.situacao}")
+def consultar_notas():
+    print("Consultar notas - implementar lógica aqui")
+
+if __name__ == "__main__":
+    menu_principal()

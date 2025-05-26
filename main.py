@@ -31,16 +31,17 @@ def menu_principal():
             menu_principal()
 
 def menu_aluno():
-    print("\n--- Menu Aluno ---")
-    print("1 - Consultar minhas notas")
-    print("0 - Voltar")
-    escolha = input("Escolha uma opção: ")
-    if escolha == '1':
-        print("Mostrando suas notas... (implemente a lógica aqui)")
-    elif escolha == '0':
-        return
-    else:
-        print("Opção inválida!")
+    while True:
+        print("\n--- Menu Aluno ---")
+        print("1 - Consultar minhas Disciplinas")
+        print("0 - Voltar")
+        escolha = input("Escolha uma opção: ")
+        if escolha == '1':
+            Aluno.consultar_disciplinas_e_notas_com_tratamento(session)
+        elif escolha == '0':
+            break
+        else:
+            print("Opção inválida!")
 
 def menu_professor():
     while True:

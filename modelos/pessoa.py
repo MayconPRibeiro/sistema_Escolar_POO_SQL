@@ -29,5 +29,5 @@ class Pessoa(ABC):
             raise ValueError("Nome não pode ser vazio.")
 
     @abstractmethod
-    def consultar_notas(self):
+    def consultar_disciplinas_e_notas_com_tratamento(self):
         pass

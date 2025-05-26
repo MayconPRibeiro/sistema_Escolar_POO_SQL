@@ -1,12 +1,16 @@
 from sqlalchemy import Column, String, Integer, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, joinedload
 from database import Base, session
 from modelos.pessoa import Pessoa
+from modelos.nota import Nota
 
 class CPFInvalidoError(Exception):
     pass
 
 class AlunoJaExisteError(Exception):
+    pass
+
+class NenhumaDisciplinaEncontradaError(Exception):
     pass
 
 class Aluno(Base, Pessoa):
@@ -58,9 +62,30 @@ class Aluno(Base, Pessoa):
         except Exception as e:
             print(f"Ocorreu um erro inesperado: {e}")
 
-    def consultar_notas(self):
-        if self.notas:
-            for nota in self.notas:
-                print(f"Disciplina: {nota.disciplina_nome} | AV1: {nota.av1} | AV2: {nota.av2}")
-        else:
-            print("Este aluno não possui notas cadastradas.")
+    def mostrar_disciplinas_e_notas(self, session):
+        if not self.notas:
+            raise NenhumaDisciplinaEncontradaError("O aluno não está matriculado em nenhuma disciplina.")
+
+        print(f"\nDisciplinas e notas do aluno {self.nome} (CPF: {self.cpf}):")
+        for nota in self.notas:
+            disciplina_nome = nota.disciplina.nome if nota.disciplina else "Disciplina desconhecida"
+            av1 = nota.av1 if nota.av1 is not None else "nota indisponível"
+            av2 = nota.av2 if nota.av2 is not None else "nota indisponível"
+            media = nota.media() if (nota.av1 is not None and nota.av2 is not None) else "nota indisponível"
+
+            print(f"Disciplina: {disciplina_nome}")
+            print(f"  AV1: {av1}")
+            print(f"  AV2: {av2}")
+            print(f"  Média: {media}")
+
+    @classmethod
+    def consultar_disciplinas_e_notas_com_tratamento(cls, session):
+        cpf = input("Digite o CPF do aluno: ").strip()
+        aluno = session.query(cls).filter_by(cpf=cpf).first()
+        if not aluno:
+            print("Aluno não encontrado.")
+            return
+        try:
+            aluno.mostrar_disciplinas_e_notas(session)
+        except NenhumaDisciplinaEncontradaError as e:
+            print(e)

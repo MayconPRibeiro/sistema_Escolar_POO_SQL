@@ -69,7 +69,7 @@ class Aluno(Base, Pessoa):
             print(f"Erro: {e}")
         except Exception as e:
             print(f"Ocorreu um erro inesperado: {e}")
-            
+
 
     def mostrar_disciplinas_e_notas(self, session):
         if not self.notas:
@@ -78,14 +78,27 @@ class Aluno(Base, Pessoa):
         print(f"\nDisciplinas e notas do aluno {self.nome} (CPF: {self.cpf}):")
         for nota in self.notas:
             disciplina_nome = nota.disciplina.nome if nota.disciplina else "Disciplina desconhecida"
-            av1 = nota.av1 if nota.av1 is not None else "nota indisponível"
-            av2 = nota.av2 if nota.av2 is not None else "nota indisponível"
-            media = nota.media() if (nota.av1 is not None and nota.av2 is not None) else "nota indisponível"
+            av1 = nota.av1 if nota.av1 is not None else "Nota indisponível"
+            av2 = nota.av2 if nota.av2 is not None else "Nota indisponível"
 
-            print(f"Disciplina: {disciplina_nome}")
+            if nota.av1 is not None and nota.av2 is not None:
+                media = nota.media()
+
+                if media >= 5:
+                    situacao = "Aprovado"
+                elif 4 <= media < 5:
+                    situacao = "Recuperação"
+                else:
+                    situacao = "Reprovado"
+            else:
+                media = "Nota indisponível"
+                situacao = "Situação indefinida (notas incompletas)"
+
+            print(f"\nDisciplina: {disciplina_nome}")
             print(f"  AV1: {av1}")
             print(f"  AV2: {av2}")
             print(f"  Média: {media}")
+            print(f"  Situação: {situacao}")
 
     @classmethod
     def consultar_disciplinas_e_notas_com_tratamento(cls, session):

@@ -112,7 +112,7 @@ class Professor(Base, Pessoa):
         except Exception as e:
             print(f"Ocorreu um erro inesperado: {e}")
 
-    @classmethod
+    @classmethod 
     def consultar_notas(cls, session):
         try:
             disciplina_nome = input("Digite o nome da disciplina para consultar as notas: ").strip()
@@ -134,12 +134,25 @@ class Professor(Base, Pessoa):
                 nome_aluno = aluno.nome if aluno else "Aluno desconhecido"
                 av1 = nota.av1 if nota.av1 is not None else "Indisponível"
                 av2 = nota.av2 if nota.av2 is not None else "Indisponível"
-                media = nota.media() if (nota.av1 is not None and nota.av2 is not None) else "Indisponível"
+
+                if (nota.av1 is not None and nota.av2 is not None):
+                    media = nota.media()
+
+                    if media >= 5:
+                        situacao = "Aprovado"
+                    elif 4 <= media < 5:
+                        situacao = "Recuperação"
+                    else:
+                        situacao = "Reprovado"
+                else:
+                    media = "Indisponível"
+                    situacao = "Situação indefinida (notas incompletas)"
 
                 print(f"Aluno: {nome_aluno} (CPF: {nota.aluno_cpf})")
                 print(f"  AV1: {av1}")
                 print(f"  AV2: {av2}")
-                print(f"  Média: {media}\n")
+                print(f"  Média: {media}")
+                print(f"  Situação: {situacao}\n")
 
         except Exception as e:
             print(f"Ocorreu um erro inesperado: {e}")

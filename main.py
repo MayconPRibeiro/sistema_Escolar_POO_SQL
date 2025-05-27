@@ -12,6 +12,7 @@ def menu_principal():
         print("2 - Criar Professor")
         print("3 - Sou Aluno")
         print("4 - Sou Professor")
+        
         print("0 - Sair")
         escolha = input("Escolha uma opção: ")
 
@@ -35,12 +36,15 @@ def menu_aluno():
         print("\n--- Menu Aluno ---")
         print("1 - Consultar minhas Disciplinas")
         print("2 - Adicionar Aluno a turma")
+        print("3 - Listar Turma do Aluno")
         print("0 - Voltar")
         escolha = input("Escolha uma opção: ")
         if escolha == '1':
             Aluno.consultar_disciplinas_e_notas_com_tratamento(session)
         elif escolha == '2':
             Aluno.adicionar_turma(session)
+        elif escolha == '3':
+            Aluno.listar_turma(session)
         elif escolha == '0':
             break
         else:
@@ -50,20 +54,20 @@ def menu_professor():
     while True:
         print("\n--- Menu Professor ---")
         print("1 - Criar Nota")
-        print("2 - Excluir Nota")
+        print("2 - Consultar Notas")
         print("3 - Modificar Nota")
-        print("4 - Consultar Notas")
+        print("4 - Excluir Notas")
         print("0 - Voltar")
         escolha = input("Escolha uma opção: ")
 
         if escolha == '1':
-            criar_nota()
+            Professor.criar_nota(session)
         elif escolha == '2':
-            excluir_nota()
+            Professor.consultar_notas(session)
         elif escolha == '3':
-            modificar_nota()
+            Professor.modificar_nota(session)
         elif escolha == '4':
-            consultar_notas()
+            Professor.excluir_nota(session)
         elif escolha == '0':
             break
         else:

@@ -27,6 +27,22 @@ class Aluno(Base, Pessoa):
     def __init__(self, cpf, nome, turma=None):
         Pessoa.__init__(self, cpf, nome)  # chama construtor abstrato
         self.turma = turma
+    
+    @classmethod
+    def listar_turma(cls, session):
+        
+            cpf = input("Digite o CPF do aluno: ").strip()
+            aluno = session.query(Aluno).filter_by(cpf=cpf).first()
+
+            if aluno:
+                print(f'Aluno: {aluno.nome}')
+                if aluno.turma:
+                    print(f"Turma: {aluno.turma.nome} - Período: {aluno.turma.periodo}")
+
+                else:
+                    print("Este aluno não está matriculado em nenhuma turma.")
+            else:
+                print("Aluno não encontrado.")
 
     @classmethod
     def criar_aluno(cls):

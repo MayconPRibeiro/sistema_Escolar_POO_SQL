@@ -69,15 +69,7 @@ class Aluno(Base, Pessoa):
             print(f"Erro: {e}")
         except Exception as e:
             print(f"Ocorreu um erro inesperado: {e}")
-
-    @classmethod
-    def criar_aluno_com_tratamento(cls):
-        try:
-            cls.criar_aluno()
-        except (CPFInvalidoError, AlunoJaExisteError) as e:
-            print(f"Erro: {e}")
-        except Exception as e:
-            print(f"Ocorreu um erro inesperado: {e}")
+            
 
     def mostrar_disciplinas_e_notas(self, session):
         if not self.notas:

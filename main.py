@@ -18,7 +18,7 @@ def menu_principal():
         escolha = input("Escolha uma opção: ")
 
         if escolha == '1':
-            Aluno.criar_aluno_com_tratamento()
+            Aluno.criar_aluno()
         elif escolha == '2':
             Professor.criar_professor()
         elif escolha == '3':

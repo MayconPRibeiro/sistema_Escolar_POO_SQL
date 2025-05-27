@@ -10,8 +10,9 @@ def menu_principal():
         print("\n===== Sistema Escolar =====")
         print("1 - Criar Aluno")
         print("2 - Criar Professor")
-        print("3 - Sou Aluno")
-        print("4 - Sou Professor")
+        print("3 - Criar Disciplina")
+        print("4 - Sou Aluno")
+        print("5 - Sou Professor")
         
         print("0 - Sair")
         escolha = input("Escolha uma opção: ")
@@ -21,8 +22,10 @@ def menu_principal():
         elif escolha == '2':
             Professor.criar_professor()
         elif escolha == '3':
-            menu_aluno()
+            Disciplina.criar_disciplina()
         elif escolha == '4':
+            menu_aluno()
+        elif escolha == '5':
             menu_professor()
         elif escolha == '0':
             print("Saindo...")

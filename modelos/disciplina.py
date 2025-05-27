@@ -1,6 +1,7 @@
 from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
 from database import Base
+from database import session
 
 class Disciplina(Base):
     __tablename__ = 'disciplinas'
@@ -13,6 +14,28 @@ class Disciplina(Base):
 
     def __init__(self, nome):
         self.nome = nome
+    
+    @classmethod
+    def criar_disciplina(cls):
+        try:
+            nome = input("Digite o nome da Disciplina: ").strip()
+
+            if not nome:
+                raise ValueError("O nome da disciplina não pode estar vazio.")
+            
+            disciplina_existente = session.query(cls).filter_by(nome=nome).first()
+            if disciplina_existente:
+                print(f'A disciplina {nome} já existe')
+                return
+            
+            nova_disciplina = cls(nome=nome)
+            session.add(nova_disciplina)
+            session.commit()
+
+            print(f"Disciplina '{nome}' criada com sucesso!")
+
+        except Exception as e:
+            print(f"Ocorreu um erro ao criar a disciplina: {e}")
 
     def listar_notas(self):
         for nota in self.notas:

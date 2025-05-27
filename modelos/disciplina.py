@@ -9,6 +9,7 @@ class Disciplina(Base):
     nome = Column(String, nullable=False, unique=True)
 
     notas = relationship("Nota", back_populates="disciplina", cascade="all, delete-orphan")
+    professores = relationship("Professor", back_populates="disciplina")
 
     def __init__(self, nome):
         self.nome = nome

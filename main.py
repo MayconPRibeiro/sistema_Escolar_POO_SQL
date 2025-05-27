@@ -1,4 +1,4 @@
-from database import session
+from database import session, Base, engine
 from modelos.turma import Turma
 from modelos.aluno import Aluno
 from modelos.professor import Professor
@@ -18,7 +18,7 @@ def menu_principal():
         if escolha == '1':
             Aluno.criar_aluno_com_tratamento()
         elif escolha == '2':
-            Professor.criar_prof_com_tratamentos()
+            Professor.criar_professor()
         elif escolha == '3':
             menu_aluno()
         elif escolha == '4':
@@ -34,10 +34,13 @@ def menu_aluno():
     while True:
         print("\n--- Menu Aluno ---")
         print("1 - Consultar minhas Disciplinas")
+        print("2 - Adicionar Aluno a turma")
         print("0 - Voltar")
         escolha = input("Escolha uma opção: ")
         if escolha == '1':
             Aluno.consultar_disciplinas_e_notas_com_tratamento(session)
+        elif escolha == '2':
+            Aluno.adicionar_turma(session)
         elif escolha == '0':
             break
         else:
@@ -79,4 +82,5 @@ def consultar_notas():
     print("Consultar notas - implementar lógica aqui")
 
 if __name__ == "__main__":
+    Base.metadata.create_all(engine)
     menu_principal()

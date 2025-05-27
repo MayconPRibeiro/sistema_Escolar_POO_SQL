@@ -11,3 +11,5 @@ engine = create_engine('sqlite:///meu_banco.db')
 
 Session = sessionmaker(bind=engine)
 session = Session()
+
+from sqlalchemy import create_engine

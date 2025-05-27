@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship, joinedload
 from database import Base, session
 from modelos.pessoa import Pessoa
 from modelos.nota import Nota
+from modelos.turma import Turma
 
 class CPFInvalidoError(Exception):
     pass
@@ -89,3 +90,30 @@ class Aluno(Base, Pessoa):
             aluno.mostrar_disciplinas_e_notas(session)
         except NenhumaDisciplinaEncontradaError as e:
             print(e)
+        
+    @classmethod
+    def adicionar_turma(cls, session):
+            try:
+                cpf = input("Digite o CPF do aluno (somente números): ").strip()
+                if not cpf.isdigit():
+                    raise ValueError("CPF inválido.")
+                cpf = int(cpf)
+
+                aluno = session.query(cls).filter_by(cpf=cpf).first()
+                if not aluno:
+                     print("Aluno não encontrado.")
+                     return
+                turma_nome = input("Digite o nome da turma: ").strip()
+                turma = session.query(Turma).filter_by(nome=turma_nome).first()
+                if not turma:
+                    print("Turma não encontrada.")
+                    return
+                
+                aluno.turma = turma
+                session.commit()
+
+                print(f"Aluno {aluno.nome} foi adicionado à turma {turma.nome} com sucesso!")
+
+            except Exception as e:
+                print(f"Ocorreu um erro ao adicionar o aluno à turma: {e}")
+

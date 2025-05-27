@@ -16,43 +16,43 @@ class CPFInvalidoError(Exception):
 class NotaNaoEncontradaError(Exception):
     pass
 
-class Professor(Pessoa):
+class Professor(Base, Pessoa):
     __tablename__ = 'professores'
 
+    cpf = Column(Integer, primary_key=True)
+    nome = Column(String, nullable=False)
     disciplina_nome = Column(String, ForeignKey('disciplinas.nome'))
 
     disciplina = relationship("Disciplina", back_populates="professores")
 
-    def __init__(self, cpf, nome, disciplina):
-        super().__init__(cpf, nome)
+    def __init__(self, cpf=None, nome=None, disciplina=None, **kwargs):
+        super().__init__(cpf=cpf, nome=nome, **kwargs)
         self.disciplina = disciplina
 
     @classmethod
     def criar_professor(cls):
-        cpf = input("Digite o CPF do professor (somente números): ").strip()
-        if not cpf.isdigit():
-            raise CPFInvalidoError("CPF inválido, precisa ser numérico.")
-        cpf = int(cpf)
-
-        nome = input("Digite o nome do professor: ").strip()
-        disciplina_nome = input("Digite o nome da disciplina: ").strip()
-
-        if session.query(cls).filter_by(cpf=cpf).first():
-            raise ProfessorJaExisteError("Já existe um professor com esse CPF!")
-
-        disciplina = session.query(Disciplina).filter_by(nome=disciplina_nome).first()
-        if not disciplina:
-            raise DisciplinaNaoEncontradaError("Disciplina não encontrada.")
-
-        novo_professor = cls(cpf=cpf, nome=nome, disciplina=disciplina)
-        session.add(novo_professor)
-        session.commit()
-
-        print(f"Professor {nome} cadastrado com sucesso na disciplina {disciplina_nome}!")
-
-    def criar_prof_com_tratamentos(cls):
         try:
-            cls.criar_professor()
+            cpf = input("Digite o CPF do professor (somente números): ").strip()
+            if not cpf.isdigit():
+                raise CPFInvalidoError("CPF inválido, precisa ser numérico.")
+            cpf = int(cpf)
+
+            nome = input("Digite o nome do professor: ").strip()
+            disciplina_nome = input("Digite o nome da disciplina: ").strip()
+
+            if session.query(cls).filter_by(cpf=cpf).first():
+                raise ProfessorJaExisteError("Já existe um professor com esse CPF!")
+
+            disciplina = session.query(Disciplina).filter_by(nome=disciplina_nome).first()
+            if not disciplina:
+                raise DisciplinaNaoEncontradaError("Disciplina não encontrada.")
+
+            novo_professor = cls(cpf=cpf, nome=nome, disciplina=disciplina)
+            session.add(novo_professor)
+            session.commit()
+
+            print(f"Professor {nome} cadastrado com sucesso na disciplina {disciplina_nome}!")
+
         except (CPFInvalidoError, ProfessorJaExisteError, DisciplinaNaoEncontradaError) as e:
             print(f"Erro: {e}")
         except Exception as e:

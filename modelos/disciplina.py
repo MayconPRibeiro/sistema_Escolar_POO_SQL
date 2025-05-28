@@ -1,7 +1,17 @@
 from sqlalchemy import Column, String, Integer
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 from database import Base
 from database import session
+
+class DisciplinaNaoEncontradaError(Exception):
+    pass
+
+
+class NomeInvalidoError(Exception):
+    pass
+
+class NaoEncontradoDisciplinaError(Exception):
+    pass
 
 class Disciplina(Base):
     __tablename__ = 'disciplinas'
@@ -40,3 +50,35 @@ class Disciplina(Base):
     def listar_notas(self):
         for nota in self.notas:
             print(f'Aluno: {nota.aluno.nome} || AV1: {nota.av1} || AV2: {nota.av2} || Média: {nota.media()}')
+
+    @classmethod
+    def listar_disciplina(cls, session: Session):
+        disciplinas = session.query(cls).all()
+        if not disciplinas:
+            raise NaoEncontradoDisciplinaError("Nenhuma disciplina cadastrada.")
+
+        print("\n--- Lista de Disciplinas ---")
+        for disciplina in disciplinas:
+            print(f"ID: {disciplina.id} | Nome: {disciplina.nome}")
+
+    @classmethod
+    def excluir_disciplina(cls, session: Session):
+        try:
+            nome = input('Digite o nome da disciplina que deseja excluir: ').strip()
+            if not nome:
+                raise NomeInvalidoError("O nome da disciplina não pode ser vazio.")
+
+            disciplina = session.query(cls).filter_by(nome=nome).first()
+
+            if not disciplina:
+                raise DisciplinaNaoEncontradaError(f"A disciplina '{nome}' não foi encontrada.")
+
+            session.delete(disciplina)
+            session.commit()
+            print(f"Disciplina '{nome}' excluída com sucesso.")
+
+        except (DisciplinaNaoEncontradaError, NomeInvalidoError) as e:
+            print(f"Erro: {e}")
+
+        except Exception as e:
+            print(f"Ocorreu um erro inesperado: {e}")

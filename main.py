@@ -10,9 +10,11 @@ def menu_principal():
         print("\n===== Sistema Escolar =====")
         print("1 - Criar Aluno")
         print("2 - Criar Professor")
-        print("3 - Criar Disciplina")
-        print("4 - Aluno")
-        print("5 - Professor")
+        print("3 - Turma")
+        print("4 - Disciplina")
+        print("5 - Aluno")
+        print("6 - Professor")
+
         
         print("0 - Sair")
         escolha = input("Escolha uma opção: ")
@@ -22,10 +24,12 @@ def menu_principal():
         elif escolha == '2':
             Professor.criar_professor()
         elif escolha == '3':
-            Disciplina.criar_disciplina()
+            menu_turma()
         elif escolha == '4':
-            menu_aluno()
+            menu_disciplina()
         elif escolha == '5':
+            menu_aluno()
+        elif escolha == '6':
             menu_professor()
         elif escolha == '0':
             print("Saindo...")
@@ -71,6 +75,47 @@ def menu_professor():
             Professor.modificar_nota(session)
         elif escolha == '4':
             Professor.excluir_nota(session)
+        elif escolha == '0':
+            break
+        else:
+            print("Opção inválida!")
+
+def menu_disciplina():
+    while True:
+        print("\n--- Menu Disciplina ---")
+        print("1 - Criar Disciplina")
+        print("2 - Listar Disciplina")
+        print("3 - Excluir Disciplina")
+        print("0 - Voltar")
+        escolha = input("Escolha uma opção: ")
+
+        if escolha == '1':
+            Disciplina.criar_disciplina()
+        elif escolha == '2':
+            Disciplina.listar_disciplina(session)
+        elif escolha == '3':
+            Disciplina.excluir_disciplina(session)
+        elif escolha == '0':
+            break
+        else:
+            print("Opção inválida!")
+
+
+def menu_turma():
+    while True:
+        print("\n--- Menu Turma ---")
+        print("1 - Criar Turma")
+        print("2 - Excluir Turma")
+        print("3 - Listar Turmas")
+        print("0 - Voltar")
+        escolha = input("Escolha uma opção: ")
+
+        if escolha == '1':
+            Turma.criar_turma()
+        elif escolha == '2':
+            Turma.excluir_turma()
+        elif escolha == '3':
+            Turma.listar_turmas()
         elif escolha == '0':
             break
         else:

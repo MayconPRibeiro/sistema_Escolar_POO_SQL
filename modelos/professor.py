@@ -6,6 +6,9 @@ from modelos.disciplina import Disciplina
 from modelos.nota import Nota
 from modelos.aluno import Aluno
 
+class CPFTamanhoError(Exception):
+    pass
+
 class ProfessorJaExisteError(Exception):
     pass
 
@@ -37,6 +40,8 @@ class Professor(Base, Pessoa):
             cpf = input("Digite o CPF do professor (somente números): ").strip()
             if not cpf.isdigit():
                 raise CPFInvalidoError("CPF inválido, precisa ser numérico.")
+            if len(cpf) != 11:
+                raise CPFTamanhoError("CPF precisa conter 11 dígitos")
             cpf = int(cpf)
 
             nome = input("Digite o nome do professor: ").strip()

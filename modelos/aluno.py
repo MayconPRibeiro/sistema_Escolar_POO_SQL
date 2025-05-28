@@ -5,6 +5,9 @@ from modelos.pessoa import Pessoa
 from modelos.nota import Nota
 from modelos.turma import Turma
 
+class CPFTamanhoError(Exception):
+    pass
+
 class CPFInvalidoError(Exception):
     pass
 
@@ -36,6 +39,8 @@ class Aluno(Base, Pessoa):
             cpf = input("Digite o CPF do aluno (somente números): ").strip()
             if not cpf.isdigit():
                 raise CPFInvalidoError("CPF inválido, deve conter somente números.")
+            if len(cpf) != 11:
+                raise CPFTamanhoError("CPF precisa conter 11 dígitos")
             cpf = int(cpf)
             
             nome = input("Digite o nome do aluno: ").strip()

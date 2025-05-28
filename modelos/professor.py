@@ -60,13 +60,6 @@ class Professor(Base, Pessoa):
         except Exception as e:
             print(f"Ocorreu um erro inesperado: {e}")
 
-    def consultar_disciplinas_e_notas_com_tratamento(self):
-        if self.disciplina and self.disciplina.notas:
-            for nota in self.disciplina.notas:
-                print(nota.obter_notas())
-        else:
-            raise NotaNaoEncontradaError("Nenhuma nota encontrada para as disciplinas do professor.")
-
     @classmethod
     def criar_nota(cls, session):
         try:

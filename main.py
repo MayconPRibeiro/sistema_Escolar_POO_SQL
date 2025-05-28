@@ -11,8 +11,8 @@ def menu_principal():
         print("1 - Criar Aluno")
         print("2 - Criar Professor")
         print("3 - Criar Disciplina")
-        print("4 - Sou Aluno")
-        print("5 - Sou Professor")
+        print("4 - Aluno")
+        print("5 - Professor")
         
         print("0 - Sair")
         escolha = input("Escolha uma opção: ")
@@ -37,13 +37,13 @@ def menu_principal():
 def menu_aluno():
     while True:
         print("\n--- Menu Aluno ---")
-        print("1 - Consultar minhas Disciplinas")
-        print("2 - Adicionar Aluno a turma")
-        print("3 - Listar Turma do Aluno")
+        print("1 - Consultar Minhas Disciplinas")
+        print("2 - Adicionar Aluno a Turma")
+        print("3 - Listar Turmas do Aluno")
         print("0 - Voltar")
         escolha = input("Escolha uma opção: ")
         if escolha == '1':
-            Aluno.consultar_disciplinas_e_notas_com_tratamento(session)
+            Aluno.consultar_notas(session)
         elif escolha == '2':
             Aluno.adicionar_turma(session)
         elif escolha == '3':
@@ -76,17 +76,6 @@ def menu_professor():
         else:
             print("Opção inválida!")
 
-def criar_nota():
-    print("Criar nota - implementar lógica aqui")
-
-def excluir_nota():
-    print("Excluir nota - implementar lógica aqui")
-
-def modificar_nota():
-    print("Modificar nota - implementar lógica aqui")
-
-def consultar_notas():
-    print("Consultar notas - implementar lógica aqui")
 
 if __name__ == "__main__":
     Base.metadata.create_all(engine)

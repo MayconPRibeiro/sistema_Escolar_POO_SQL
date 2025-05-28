@@ -28,21 +28,6 @@ class Aluno(Base, Pessoa):
         Pessoa.__init__(self, cpf, nome)  # chama construtor abstrato
         self.turma = turma
     
-    @classmethod
-    def listar_turma(cls, session):
-        
-            cpf = input("Digite o CPF do aluno: ").strip()
-            aluno = session.query(Aluno).filter_by(cpf=cpf).first()
-
-            if aluno:
-                print(f'Aluno: {aluno.nome}')
-                if aluno.turma:
-                    print(f"Turma: {aluno.turma.nome} - Período: {aluno.turma.periodo}")
-
-                else:
-                    print("Este aluno não está matriculado em nenhuma turma.")
-            else:
-                print("Aluno não encontrado.")
 
     @classmethod
     def criar_aluno(cls):
@@ -69,6 +54,23 @@ class Aluno(Base, Pessoa):
             print(f"Erro: {e}")
         except Exception as e:
             print(f"Ocorreu um erro inesperado: {e}")
+            
+
+    @classmethod
+    def listar_turma(cls, session):
+        
+            cpf = input("Digite o CPF do aluno: ").strip()
+            aluno = session.query(Aluno).filter_by(cpf=cpf).first()
+
+            if aluno:
+                print(f'Aluno: {aluno.nome}')
+                if aluno.turma:
+                    print(f"Turma: {aluno.turma.nome} - Período: {aluno.turma.periodo}")
+
+                else:
+                    print("Este aluno não está matriculado em nenhuma turma.")
+            else:
+                print("Aluno não encontrado.")
 
 
     def mostrar_disciplinas_e_notas(self, session):
@@ -101,7 +103,7 @@ class Aluno(Base, Pessoa):
             print(f"  Situação: {situacao}")
 
     @classmethod
-    def consultar_disciplinas_e_notas_com_tratamento(cls, session):
+    def consultar_notas(cls, session):
         cpf = input("Digite o CPF do aluno: ").strip()
         aluno = session.query(cls).filter_by(cpf=cpf).first()
         if not aluno:

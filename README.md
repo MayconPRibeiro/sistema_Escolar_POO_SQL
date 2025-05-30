@@ -2,6 +2,10 @@
 
 Um sistema básico de gerenciamento acadêmico para administrar alunos, professores, turmas, disciplinas e notas, utilizando Python, SQLAlchemy e um banco de dados SQLite.
 
+## Modelo ER (Banco de dados)
+
+![Modelo ER](documentos/Diagrama.png)
+
 ## Descrição das Classes (Modelo Original)
 
 O sistema utiliza as seguintes classes principais, mapeadas para o banco de dados:
